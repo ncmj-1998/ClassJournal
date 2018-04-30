@@ -33,7 +33,7 @@ public class GradeActivity extends AppCompatActivity {
         // Get the intent
         Intent i = getIntent();
         // Get the Hero object first activity put in Intent
-        Module module = (Module) i.getSerializableExtra("module");
+        final Module module = (Module) i.getSerializableExtra("module");
         grades = new ArrayList<Grade>();
 
        if (module.getDailyGrade() == null){
@@ -89,7 +89,9 @@ public class GradeActivity extends AppCompatActivity {
                 // Intent to display data
                 Intent rpIntent = new Intent(Intent.ACTION_VIEW);
                 // Set the URL to be used.
-                rpIntent.setData(Uri.parse("https://www.rp.edu.sg/SOI/full-time-diplomas/Details/r47"));
+
+                String url = "https://www.rp.edu.sg/schools-courses/courses/full-time-diplomas/full-time-courses/modules/index/";
+                rpIntent.setData(Uri.parse(url+module.getModuleCode()));
                 startActivity(rpIntent);
             }
         });
