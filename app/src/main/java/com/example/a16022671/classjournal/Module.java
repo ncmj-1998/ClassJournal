@@ -20,9 +20,12 @@ public class Module implements Serializable {
         this.moduleName = moduleName;
         this.moduleCode = moduleCode;
         this.dailyGrade = dailyGrade;
-
-
     }
+
+    public void addToArray (String grade){
+        dailyGrade.add(grade);
+    }
+
 
     public String getModuleName() {
         return moduleName;

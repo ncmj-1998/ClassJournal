@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -18,22 +20,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GradeActivity extends AppCompatActivity {
- ListView lvGrade;
- Button buttonAdd;
+    ListView lvGrade;
+    Button buttonAdd;
 
     ArrayAdapter aa;
     ArrayList<Grade> grades;
-
+    Module module;
+    int addStatus = 0;
     Button btnEmail;
     Button btnInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grade);
 
-        lvGrade = (ListView)findViewById(R.id.lvGrade);
-        buttonAdd = (Button)findViewById(R.id.btnAdd);
 
+        lvGrade = (ListView) findViewById(R.id.lvGrade);
+        buttonAdd = (Button) findViewById(R.id.btnAdd);
         ArrayList<String> gradeList = new ArrayList<String>();
         grades = new ArrayList<Grade>();
 
@@ -42,19 +46,20 @@ public class GradeActivity extends AppCompatActivity {
         // Get the intent
         final Intent i = getIntent();
         // Get the Hero object first activity put in Intent
-        final Module module = (Module) i.getSerializableExtra("module");
+        module = (Module) i.getSerializableExtra("module");
         grades = new ArrayList<Grade>();
 
-       if (module.getDailyGrade() == null){
+        if (module.getDailyGrade() == null) {
 
-       }
-        else {
-           for (int a = 0; a < module.getDailyGrade().size(); a++) {
-               grades.add(new Grade(module.getDailyGrade().get(a)));
-           }
-       }
+        } else {
+            for (int a = 0; a < module.getDailyGrade().size(); a++) {
+                grades.add(new Grade(module.getDailyGrade().get(a)));
+            }
+        }
         aa = new GradeAdapter(this, R.layout.graderow, grades);
         lvGrade.setAdapter(aa);
+
+        lvGrade.refreshDrawableState();
 
         btnEmail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,25 +105,57 @@ public class GradeActivity extends AppCompatActivity {
                 // Set the URL to be used.
 
                 String url = "https://www.rp.edu.sg/schools-courses/courses/full-time-diplomas/full-time-courses/modules/index/";
-                rpIntent.setData(Uri.parse(url+module.getModuleCode()));
+                rpIntent.setData(Uri.parse(url + module.getModuleCode()));
                 startActivity(rpIntent);
             }
         });
 
-        buttonAdd.setOnClickListener(new View.OnClickListener(){
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                Log.v("go to add",String.valueOf(module.getDailyGrade()));
                 Intent i = new Intent(GradeActivity.this,
                         AddGradeActivity.class);
                 // Put hero object in intent
                 i.putExtra("module", module);
 
-                startActivity(i);
+                startActivityForResult(i,addStatus);
 
-            }});
+            }
+        });
 
-    }}
+    }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        // Only handle when 2nd activity closed normally
+        //  and data contains something
+        if (resultCode == RESULT_OK) {
+            if (data != null) {
+                // Get data passed back from 2nd activity
+               module =(Module) data.getSerializableExtra("module");
+                // If it is activity started by clicking 				//  Superman, create corresponding String
+                if (requestCode == addStatus) {
+                    grades = new ArrayList<Grade>();
+
+                    if (module.getDailyGrade() == null) {
+
+                    } else {
+                        for (int a = 0; a < module.getDailyGrade().size(); a++) {
+                            grades.add(new Grade(module.getDailyGrade().get(a)));
+                        }
+                    }
+                    aa = new GradeAdapter(this, R.layout.graderow, grades);
+                    lvGrade.setAdapter(aa);
+                    aa.notifyDataSetChanged();
+                }
+
+            }
+        }
+    }
+
+}
 
