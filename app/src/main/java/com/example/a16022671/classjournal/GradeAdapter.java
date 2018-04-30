@@ -39,7 +39,7 @@ public class GradeAdapter extends ArrayAdapter<Grade> {
         // Get the TextView object
         tvGrade = (TextView) rowView.findViewById(R.id.tvGrade);
 
-    Grade currentGrade = grades.get(position);
+        Grade currentGrade = grades.get(position);
         // Set the TextView to show the food
 
         tvHeader = (TextView)rowView.findViewById(R.id.tvHeader);

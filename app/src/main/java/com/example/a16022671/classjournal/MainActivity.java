@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         gradeList.add("A");
         modules = new ArrayList<Module>();
         modules.add(new Module("C302","Web Services",gradeList));
-        modules.add(new Module("C347","Android Programing II",gradeList));
+        modules.add(new Module("C347","Android Programing II"));
 
         aa = new ModuleAdapter(this, R.layout.modulerow, modules);
         lv.setAdapter(aa);
