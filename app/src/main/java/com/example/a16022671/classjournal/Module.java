@@ -7,11 +7,21 @@ public class Module implements Serializable {
     public String moduleName;
     public String moduleCode;
     public ArrayList<String> dailyGrade;
+    public String moduleUrl;
 
-    public Module(String moduleName, String moduleCode, ArrayList<String>dailyGrade) {
+    public Module(String moduleCode, String moduleName) {
+        this.moduleName = moduleName;
+        this.moduleCode = moduleCode;
+        this.dailyGrade = null;
+
+    }
+
+    public Module(String moduleCode, String moduleName,ArrayList<String>dailyGrade) {
         this.moduleName = moduleName;
         this.moduleCode = moduleCode;
         this.dailyGrade = dailyGrade;
+
+
     }
 
     public String getModuleName() {

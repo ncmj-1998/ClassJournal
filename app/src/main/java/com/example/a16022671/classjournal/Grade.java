@@ -1,5 +1,7 @@
 package com.example.a16022671.classjournal;
 
+import java.io.Serializable;
+
 public class Grade {
     public String grade;
 

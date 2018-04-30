@@ -1,11 +1,13 @@
 package com.example.a16022671.classjournal;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter aa;
     ArrayList<Module> modules;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         gradeList.add("A");
         modules = new ArrayList<Module>();
         modules.add(new Module("C302","Web Services",gradeList));
-        modules.add(new Module("C347","Android Programing II",gradeList));
+        modules.add(new Module("C347","Android Programing II"));
 
         aa = new ModuleAdapter(this, R.layout.modulerow, modules);
         lv.setAdapter(aa);
@@ -46,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
 
 
     }
